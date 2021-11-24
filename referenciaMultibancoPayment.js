@@ -28,9 +28,10 @@ LoadCheckoutPaymentContext(function(Checkout, PaymentOptions) {
 
 			// Use the Checkout HTTP library to post a request to our server and fetch the redirect URL.
 			Checkout.http
-				.post('https://ifthenpay.com/api/gateway/paybylink/EGAS-319193', {
-					data: ReferenciaMultibancoRelevantData
-				})
+			    .get('https://ifthenpay.com/api/gateway/paybylink/EGAS-319193?id='+Checkout.getData('order.cart.id')+"&amount="+Checkout.getData('order.cart.prices.total'))
+				//.post('https://ifthenpay.com/api/gateway/paybylink/EGAS-319193', {
+				//	data: ReferenciaMultibancoRelevantData
+				//})
 				.then(function(responseBody) {
 					// Once you get the redirect URL, invoke the callback by passing it as argument.
 					console.log(responseBody.data);
