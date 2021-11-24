@@ -11,8 +11,6 @@ LoadCheckoutPaymentContext(function(Checkout, PaymentOptions) {
 		fields: {
 			billing_address: true
 		},
-//https://ifthenpay.com/api/gateway/paybylink/[GATEWAY_KEY]
-
 
 		// This function handles the order submission event.
 		onSubmit: function(callback) {
@@ -25,6 +23,8 @@ LoadCheckoutPaymentContext(function(Checkout, PaymentOptions) {
 				id: Checkout.getData('order.cart.id'),
                 amount: Checkout.getData('order.cart.prices.total'),
 			};
+			
+			console.log(ReferenciaMultibancoRelevantData);
 
 			// Use the Checkout HTTP library to post a request to our server and fetch the redirect URL.
 			Checkout.http
