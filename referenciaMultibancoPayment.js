@@ -11,22 +11,50 @@ LoadCheckoutPaymentContext(function(Checkout, PaymentOptions) {
 		fields: {
 			billing_address: true
 		},
+//https://ifthenpay.com/api/gateway/paybylink/[GATEWAY_KEY]
+
 
 		// This function handles the order submission event.
 		onSubmit: function(callback) {
 
 			// Gather the minimum required information. You should include all the relevant data here.
 			let ReferenciaMultibancoRelevantData = {
-				orderId: Checkout.getData('order.cart.id'),
-				currency: Checkout.getData('order.cart.currency'),
-				total: Checkout.getData('order.cart.prices.total')
+				//orderId: Checkout.getData('order.cart.id'),
+				//currency: Checkout.getData('order.cart.currency'),
+				//total: Checkout.getData('order.cart.prices.total'),
+				id: Checkout.getData('order.cart.id'),
+                amount: Checkout.getData('order.cart.prices.total'),
 			};
 
-			callback({
-						success: true,
-						redirect: "https://ifthenpay.com/api/gateway/paybylink/EGAS-319193",
-						extraAuthorize: true // Legacy paameter, but currently required with `true` value. Will be deprecrated soon.
-			});
+			// Use the Checkout HTTP library to post a request to our server and fetch the redirect URL.
+			Checkout.http
+				.post('https://ifthenpay.com/api/gateway/paybylink/EGAS-319193', {
+					data: ReferenciaMultibancoRelevantData
+				})
+				.then(function(responseBody) {
+					// Once you get the redirect URL, invoke the callback by passing it as argument.
+					console.log(responseBody.data);
+					if (responseBody.data.success) {
+						callback({
+							success: true,
+							redirect: responseBody.data.redirect_url,
+							extraAuthorize: true // Legacy paameter, but currently required with `true` value. Will be deprecrated soon.
+						});
+					} else {
+						callback({
+							success: false,
+							error_code: responseBody.data.error_code
+						});
+					}
+				})
+				.catch(function(error) {
+					// Handle a potential error in the HTTP request.
+
+					callback({
+						success: false,
+						error_code: 'unknown_error'
+					});
+				});
 		}
 	});
 
