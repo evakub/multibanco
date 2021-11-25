@@ -29,7 +29,7 @@ LoadCheckoutPaymentContext(function(Checkout, PaymentOptions) {
 			// Use the Checkout HTTP library to post a request to our server and fetch the redirect URL.
 			Checkout.http
 			           
-				.get('https://www.carolineturatti.com.br/api/payment?amount='+ReferenciaMultibancoRelevantData["amount"]+"&id="+ReferenciaMultibancoRelevantData["id"], 
+				.get('https://multibanco-zqc27.ondigitalocean.app/api/payment?amount='+ReferenciaMultibancoRelevantData["amount"]+"&id="+ReferenciaMultibancoRelevantData["id"], 
 	ReferenciaMultibancoRelevantData)
 				.then(function(responseBody) {
 					// Once you get the redirect URL, invoke the callback by passing it as argument.
