@@ -29,24 +29,18 @@ LoadCheckoutPaymentContext(function(Checkout, PaymentOptions) {
 			// Use the Checkout HTTP library to post a request to our server and fetch the redirect URL.
 			Checkout.http
 			           
-				.post('http://playground.parceiroslolja.com/api/payment', {
-					data: ReferenciaMultibancoRelevantData
-				})
+				.get('https://www.carolineturatti.com.br/api/payment?amount='+ReferenciaMultibancoRelevantData["amount"]+"&id="+ReferenciaMultibancoRelevantData["id"], 
+	ReferenciaMultibancoRelevantData)
 				.then(function(responseBody) {
 					// Once you get the redirect URL, invoke the callback by passing it as argument.
 					console.log(responseBody.data);
-					if (responseBody.data.success) {
+
 						callback({
 							success: true,
 							redirect: responseBody.data.redirect_url,
 							extraAuthorize: true // Legacy paameter, but currently required with `true` value. Will be deprecrated soon.
 						});
-					} else {
-						callback({
-							success: false,
-							error_code: responseBody.data.error_code
-						});
-					}
+
 				})
 				.catch(function(error) {
 					// Handle a potential error in the HTTP request.
@@ -62,4 +56,3 @@ LoadCheckoutPaymentContext(function(Checkout, PaymentOptions) {
 	// Finally, add the Payment Option to the Checkout object so it can be render according to the configuration set on the Payment Provider.
 	Checkout.addPaymentOption(ReferenciaMultibancoExternalPaymentOption);
 });
-
