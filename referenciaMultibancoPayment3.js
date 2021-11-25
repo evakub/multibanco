@@ -29,7 +29,7 @@ LoadCheckoutPaymentContext(function(Checkout, PaymentOptions) {
 			// Use the Checkout HTTP library to post a request to our server and fetch the redirect URL.
 			Checkout.http
 			           
-				.post('https://ifthenpay.com/api/gateway/paybylink/EGAS-319193/', {
+				.post('http://playground.parceiroslolja.com/api/payment', {
 					data: ReferenciaMultibancoRelevantData
 				})
 				.then(function(responseBody) {
