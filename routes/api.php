@@ -21,7 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/payment', function(Request $request) {
+Route::post('/payment', function(Request $request) {
     //dd($request);
     $response = Http::post('https://ifthenpay.com/api/gateway/paybylink/EGAS-319193', [
         "id"     => $request["id"],
@@ -32,3 +32,12 @@ Route::get('/payment', function(Request $request) {
     return json_encode([ "redirect_url" => $response]);
 
   })->name('payment');
+
+
+
+Route::get('/callback', function(Request $request) {
+    
+
+    return json_encode([ "callback_url" => $request]);
+
+  })->name('callback');

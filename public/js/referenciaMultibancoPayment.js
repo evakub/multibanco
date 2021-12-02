@@ -28,9 +28,9 @@ LoadCheckoutPaymentContext(function(Checkout, PaymentOptions) {
 
 			// Use the Checkout HTTP library to post a request to our server and fetch the redirect URL.
 			Checkout.http
-			           
-				.get('https://multibanco-zqc27.ondigitalocean.app/api/payment?amount='+ReferenciaMultibancoRelevantData["amount"]+"&id="+ReferenciaMultibancoRelevantData["id"], 
-	ReferenciaMultibancoRelevantData)
+				.post('https://payment.parceiroslolja.com/api/payment', {
+					data: ReferenciaMultibancoRelevantData
+				})
 				.then(function(responseBody) {
 					// Once you get the redirect URL, invoke the callback by passing it as argument.
 					console.log(responseBody.data);
@@ -55,4 +55,18 @@ LoadCheckoutPaymentContext(function(Checkout, PaymentOptions) {
 
 	// Finally, add the Payment Option to the Checkout object so it can be render according to the configuration set on the Payment Provider.
 	Checkout.addPaymentOption(ReferenciaMultibancoExternalPaymentOption);
+
+	// change default msg
+	setTimeout(() => {
+        var paymentId = 'referencia_multibanco_redirect';
+		document.querySelector("#radio-option-" + paymentId).nextElementSibling.children[0].innerHTML = '<div class="row"> \
+		<div class="col p-all text-center"> \
+			<div class="text-center m-bottom method-logo-wrapper"> \
+				<img alt="Multibanco" src="https://payment.parceiroslolja.com/img/redirect-gateway.svg" class="img-large"> \
+				<img alt="Multibanco" src="https://payment.parceiroslolja.com/img/160x100.png" class="img-large"> \
+			</div> \
+			Você será redirecionado para pagar com o Multibanco. \
+		</div> \
+	</div>';
+	}, 200);
 });

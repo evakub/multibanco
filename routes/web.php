@@ -26,3 +26,10 @@ Route::get('/rates', function () {
     return view('rates');
 });
 
+Route::get('/callback', function(Request $request) {
+    
+
+    return json_encode([ "callback" => $request]);
+
+  })->name('callback');
+
