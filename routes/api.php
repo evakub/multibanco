@@ -22,10 +22,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('/payment', function(Request $request) {
-    //dd($request);
+    dd($request);
     $response = Http::post('https://ifthenpay.com/api/gateway/paybylink/EGAS-319193', [
-        "id"     => $request["id"],
-        "amount" => $request["amount"]
+        "id"     => $request["data"]["id"],
+        "amount" => $request["data"]["amount"]
     ])->json();
 
 
