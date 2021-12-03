@@ -28,10 +28,7 @@ LoadCheckoutPaymentContext(function(Checkout, PaymentOptions) {
 
 			// Use the Checkout HTTP library to post a request to our server and fetch the redirect URL.
 			Checkout.http
-				//.post('https://payment.parceiroslolja.com/api/payment', {
-					.post('localhost:3000/api/payment', {
-					data: ReferenciaMultibancoRelevantData
-				})
+				.post('https://payment.parceiroslolja.com/api/payment', ReferenciaMultibancoRelevantData)
 				.then(function(responseBody) {
 					// Once you get the redirect URL, invoke the callback by passing it as argument.
 					console.log(responseBody.data);
