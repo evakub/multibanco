@@ -14,6 +14,12 @@ return [
     |
     */
 
+    'nuvem' => [
+        'base_uri' => env('NUVEM_API_BASE_URI'),
+        'token' => env('NUVEM_API_TOKEN'),
+        'payment_provider_id' => env('NUVEM_API_PAYMENT_PROVIDER_ID')
+    ],
+
     'mailgun' => [
         'domain' => env('MAILGUN_DOMAIN'),
         'secret' => env('MAILGUN_SECRET'),
