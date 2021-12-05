@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Http;
 use App\Jobs\setTransactionPendingJob;
 use App\Services\NuvemService;
 
+use Illuminate\Support\Facades\Log;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -64,6 +66,7 @@ Route::post('/payment', function(Request $request) {
 	$response_nuvem = json_decode($nuvemService->setOrderPending($request["id"], $request["amount"], $request["redirect_url"])["response"]);
 	
 	//print_r($response_nuvem);
+	Log::info($response_nuvem);
 
     return json_encode([ "redirect_url" => $response_ifthenpay_url]);
 
