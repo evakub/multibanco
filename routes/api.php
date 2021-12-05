@@ -63,7 +63,7 @@ Route::post('/payment', function(Request $request) {
 	$nuvemService = new NuvemService();
 	$response_nuvem = json_decode($nuvemService->setOrderPending($request["id"], $request["amount"], $request["redirect_url"])["response"]);
 	
-	print_r($response_nuvem);
+	//print_r($response_nuvem);
 
     return json_encode([ "redirect_url" => $response_ifthenpay_url]);
 
