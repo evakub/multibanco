@@ -16,22 +16,22 @@ trait ConsumesExternalServices
        
         $client = new Client([
             'base_uri' => $this->baseUri,
-            'debug' => true
+            'debug' => false
 
         ]);
         
         $formParamsJson = json_encode($formParams);
         
-        
+       
         if(method_exists($this, 'resolveAuthorization')){
             $this->resolveAuthorization($queryParams, $formParams, $headers);
         }
-       
+        //print_r($formParamsJson);
         try {
             $response = $client->request($method, $requestUrl, [
                 'query' => $queryParams,
                 'headers' => $headers,
-                'http_errors' => false,
+                'http_errors' => true,
                 'body' => $formParamsJson,
 
             ]);

@@ -32,8 +32,10 @@ class NuvemService
     public function resolveAuthorization(&$queryParams, &$formParams, &$headers)
     {
         $accessToken = config('services.nuvem.token');
-		print_r(array( "accessToken" => $accessToken));
-        $headers['Authorization'] = $accessToken;
+		//print_r(array( "accessToken" => $accessToken));
+        $headers['Authentication'] = $accessToken;
+        //$headers['Authorization'] = $accessToken;
+        return $headers;
     }
 
 
@@ -64,10 +66,10 @@ class NuvemService
 				],
 				"type" => "sale",
 				"status" => "pending",
-				"happened_at" => $happened_at->format(DateTime::ISO8601)
+				"happened_at" => $happened_at->format('c')
 			]
         ];
-        return $this->makeRequest('POST', $url, [], $queryParams, [ 'Content-Type' => 'application/json']);
+        return $this->makeRequest('POST', $url, [], $queryParams, ['Content-Type' => 'application/json']);
     }
 
   

@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
 
-use App\Services\NuvemService;
+use App\Jobs\setTransactionPendingJob;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,18 +50,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 */
 Route::post('/payment', function(Request $request) {
 
-  
 
     $response_ifthenpay_url = Http::post('https://ifthenpay.com/api/gateway/paybylink/EGAS-319193', [
         "id"     => $request["id"],
         "amount" => $request["amount"]
     ])->json();
-    
-
-    $nuvemService = new NuvemService();
-    $response_nuvem = json_decode($nuvemService->setOrderPending($request["id"], $request["amount"], $response_ifthenpay_url)["response"]);
-
-    print_r($response_nuvem);
+    $request['redirect_url'] = $response_ifthenpay_url;
+	setTransactionPendingJob::dispatch($request->all());//->delay(now()->addSeconds(10));
 
     return json_encode([ "redirect_url" => $response_ifthenpay_url]);
 
