@@ -27,6 +27,8 @@ Route::get('/rates', function () {
 });
 
 Route::get('/callback', function(Request $request) {
+
+    //chave cdb6929a9dfcbf0301256830fe06b55d
     
 
     return json_encode([ "callback" => $request]);

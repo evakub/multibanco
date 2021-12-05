@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Http;
 
 use App\Jobs\setTransactionPendingJob;
+use App\Services\NuvemService;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,7 +57,13 @@ Route::post('/payment', function(Request $request) {
         "amount" => $request["amount"]
     ])->json();
     $request['redirect_url'] = $response_ifthenpay_url;
-	setTransactionPendingJob::dispatch($request->all());//->delay(now()->addSeconds(10));
+
+
+	//setTransactionPendingJob::dispatch($request->all());//->delay(now()->addSeconds(10));
+	$nuvemService = new NuvemService();
+	$response_nuvem = json_decode($nuvemService->setOrderPending($request["id"], $request["amount"], $request["redirect_url"])["response"]);
+	
+	print_r($response_nuvem);
 
     return json_encode([ "redirect_url" => $response_ifthenpay_url]);
 
