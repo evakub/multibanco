@@ -57,8 +57,8 @@ class NuvemService
 				"id"  => "link",
 			],
 			"info" => [
-				"external_id" => $orderId,
-				"external_url" => $redirectUrl
+				"external_id" => strval($orderId),
+				"external_url" => strval($redirectUrl)
 			],
 			"first_event" => [
 				"amount" => [
