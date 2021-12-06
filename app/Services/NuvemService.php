@@ -72,7 +72,12 @@ class NuvemService
         ];
 
         //Log::notice($queryParams);
-        return $this->makeRequest('POST', $url, [], $queryParams, ['Content-Type' => 'application/json', 'Accept' => 'application/json']);
+        return $this->makeRequest('POST', $url, [], $queryParams, [
+            'Content-Type' => 'application/json',
+             'Accept' => 'application/json',
+             'Origin' => 'https://r2store.lojavirtualnuvem.com.br',
+            ]
+        );
     }
 
   
