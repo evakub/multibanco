@@ -16,7 +16,7 @@ trait ConsumesExternalServices
        
         $client = new Client([
             'base_uri' => $this->baseUri,
-            'debug' => true
+            'debug' => false
 
         ]);
         
