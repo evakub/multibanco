@@ -62,7 +62,7 @@ class NuvemService
 			],
 			"first_event" => [
 				"amount" => [
-					"value" => $orderValue,
+					"value" => strval($orderValue),
 					"currency" => "EUR"
 				],
 				"type" => "sale",
