@@ -37,7 +37,11 @@ trait ConsumesExternalServices
             ]);
             
         } catch(\Exception $e) {
-            return ['status_code' => 999, 'response' => "Something is wrong with API"];
+            return [
+                'status_code' => 999,
+                'response' => "Something is wrong with API",
+                'erro' => $e
+            ];
         }
 
         $status_code = $response->getStatusCode();
