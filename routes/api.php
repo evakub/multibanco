@@ -62,6 +62,7 @@ Route::post('/payment', function(Request $request) {
 
 
 	setTransactionPendingJob::dispatch($request->all());//->delay(now()->addSeconds(10));
+	log::info($request);
 	//$nuvemService = new NuvemService();
 	//$response_nuvem = json_decode($nuvemService->setOrderPending($request["id"], $request["amount"], $request["redirect_url"])["response"]);
 	

@@ -6,6 +6,7 @@ use App\Traits\ConsumesExternalServices;
 use App\Traits\InteractWithExternalServices;
 use Carbon\Carbon;
 use DateTime;
+use Illuminate\Support\Facades\Log;
 
 class NuvemService
 {
@@ -69,6 +70,8 @@ class NuvemService
 				"happened_at" => $happened_at->format('c')
 			]
         ];
+
+        Log::notice($queryParams);
         return $this->makeRequest('POST', $url, [], $queryParams, ['Content-Type' => 'application/json']);
     }
 
