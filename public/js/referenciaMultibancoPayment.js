@@ -21,7 +21,7 @@ LoadCheckoutPaymentContext(function(Checkout, PaymentOptions) {
 				//currency: Checkout.getData('order.cart.currency'),
 				//total: Checkout.getData('order.cart.prices.total'),
 				id: Checkout.getData('order.cart.id'),
-                amount: Checkout.getData('order.cart.prices.total'),
+                amount: Checkout.getData('order.cart.prices.total')
 			};
 			
 			console.log(ReferenciaMultibancoRelevantData);
