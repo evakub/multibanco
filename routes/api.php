@@ -53,18 +53,19 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 */
 Route::post('/payment', function(Request $request) {
 
-
-    $response_ifthenpay_url = Http::post('https://ifthenpay.com/api/gateway/paybylink/EGAS-319193', [
-        "id"     => $request["id"],
-        "amount" => $request["amount"]
-    ])->json();
-    $request['redirect_url'] = $response_ifthenpay_url;
-
-
 	//setTransactionPendingJob::dispatch($request->all());//->delay(now()->addSeconds(10));
 	//log::info($request);
 	$nuvemService = new NuvemService();
 	$response_nuvem = $nuvemService->setOrderPending($request["id"], $request["amount"], $request["redirect_url"]);
+
+	$order = $nuvemService->getOrder($request["id"]);
+
+	$response_ifthenpay_url = Http::post('https://ifthenpay.com/api/gateway/paybylink/EGAS-319193', [
+        "id"     => $order["number"],
+        "amount" => $request["amount"]
+    ])->json();
+    $request['redirect_url'] = $response_ifthenpay_url;
+
 	
 	//print_r($response_nuvem);
 	//Log::info($response_nuvem);

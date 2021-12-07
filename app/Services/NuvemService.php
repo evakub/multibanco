@@ -43,7 +43,7 @@ class NuvemService
     public function setOrderPending($orderId, $orderValue, $redirectUrl)
     {   
 
-		$storeId = '1950502'; // 1950502 = r2store
+		$storeId = '1911491'; // 1950502 = r2store
 		
         $url = $storeId.'/orders/'.$orderId.'/transactions';
 
@@ -78,6 +78,15 @@ class NuvemService
              'Origin' => 'https://r2store.lojavirtualnuvem.com.br',
             ]
         );
+    }
+
+    public function getOrder($orderId)
+    {  
+        $storeId = '1911491'; // 1950502 = r2store
+        $url =  $storeId.'/orders/'.strval($orderId);
+        
+        return $this->makeRequest('GET', $url, [], [], []);
+
     }
 
   
