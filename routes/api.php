@@ -56,9 +56,10 @@ Route::post('/payment', function(Request $request) {
 	//setTransactionPendingJob::dispatch($request->all());//->delay(now()->addSeconds(10));
 	//log::info($request);
 	$nuvemService = new NuvemService();
-	$response_nuvem = $nuvemService->setOrderPending($request["id"], $request["amount"], $request["redirect_url"]);
+	$response_nuvem = $nuvemService->setOrderPending($request["id"], $request["amount"], "");
 
 	$order = $nuvemService->getOrder($request["id"]);
+	Log::info($order);
 
 	$response_ifthenpay_url = Http::post('https://ifthenpay.com/api/gateway/paybylink/EGAS-319193', [
         "id"     => $order["number"],
@@ -66,7 +67,7 @@ Route::post('/payment', function(Request $request) {
     ])->json();
     $request['redirect_url'] = $response_ifthenpay_url;
 
-	
+	Log::info($response_nuvem);
 	//print_r($response_nuvem);
 	//Log::info($response_nuvem);
 
