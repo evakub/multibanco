@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,7 +32,7 @@ Route::get('/callback', function(Request $request) {
     //chave cdb6929a9dfcbf0301256830fe06b55d
     
 
-    return json_encode([ "callback" => $request]);
+    return json_encode([ "callback" => $request.all()]);
 
   })->name('callback');
 
