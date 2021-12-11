@@ -32,7 +32,7 @@ Route::get('/callback', function(Request $request) {
     //chave cdb6929a9dfcbf0301256830fe06b55d
     
 
-    return json_encode([ "callback" => $request.all()]);
+    return json_encode([ "callback" => $request]);
 
   })->name('callback');
 
