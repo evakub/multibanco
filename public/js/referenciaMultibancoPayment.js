@@ -19,7 +19,7 @@ LoadCheckoutPaymentContext(function(Checkout, PaymentOptions) {
 			let ReferenciaMultibancoRelevantData = {
 				//orderId: Checkout.getData('order.cart.id'),
 				//currency: Checkout.getData('order.cart.currency'),
-				//total: Checkout.getData('order.cart.prices.total'),
+				cart: Checkout.getData('order.cart.hash'),
 				id: Checkout.getData('order.cart.id'),
                 amount: Checkout.getData('order.cart.prices.total')
 			};

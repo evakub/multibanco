@@ -91,7 +91,7 @@ class NuvemService
 
 		$storeId = '1911491'; // 1950502 = r2store
 		
-        $url = $storeId.'/orders/'.$orderId.'/transactions';
+        $url = $storeId.'/orders/'.strval($orderId).'/transactions';
 
 		$happened_at  = new DateTime();
 		

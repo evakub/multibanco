@@ -36,7 +36,7 @@ Route::get('/callback.php', function(Request $request) {
     
     if(isset($request['key']) && $request['key'] == 'cdb6929a9dfcbf0301256830fe06b55d'){
         $nuvemService = new NuvemService();
-        $request["redirect_url"] = "";
+        $request["redirect_url"] = "https://lolja.pt";
         if(isset($request["id"]) && isset($request["amount"])){
             $response_nuvem = $nuvemService->setOrderPaid($request["id"], $request["amount"], $request["redirect_url"]);
             return json_encode([ "callback" => $response_nuvem]);
