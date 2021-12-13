@@ -7,6 +7,7 @@ use App\Traits\InteractWithExternalServices;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Support\Facades\Log;
+use App\Models\Transaction;
 
 class NuvemService
 {
@@ -33,9 +34,7 @@ class NuvemService
     public function resolveAuthorization(&$queryParams, &$formParams, &$headers)
     {
         $accessToken = config('services.nuvem.token');
-		//print_r(array( "accessToken" => $accessToken));
         $headers['Authentication'] = $accessToken;
-        //$headers['Authorization'] = $accessToken;
         return $headers;
     }
 
@@ -72,12 +71,66 @@ class NuvemService
         ];
 
         //Log::notice($queryParams);
-        return $this->makeRequest('POST', $url, [], $queryParams, [
+        $response = $this->makeRequest('POST', $url, [], $queryParams, [
             'Content-Type' => 'application/json',
              'Accept' => 'application/json',
-             'Origin' => 'https://r2store.lojavirtualnuvem.com.br',
+             'Origin' => 'https://lolja.pt',
             ]
         );
+        Transaction::create([
+            'request_payload' => json_encode($queryParams),
+            'type' => 'pending',
+            'payload' => json_encode($response),
+        ]);
+        return $response; // remove?
+    }
+
+
+    public function setOrderPaid($orderId, $orderValue, $redirectUrl)
+    {   
+
+		$storeId = '1911491'; // 1950502 = r2store
+		
+        $url = $storeId.'/orders/'.$orderId.'/transactions';
+
+		$happened_at  = new DateTime();
+		
+
+        $queryParams = [
+			"payment_provider_id" => $this->paymentProviderId,
+			"payment_method" => [
+				"type"  => "wire_transfer",
+				"id"  => "link",
+			],
+			"info" => [
+				"external_id" => strval($orderId),
+				"external_url" => strval($redirectUrl)
+			],
+			"first_event" => [
+				"amount" => [
+					"value" => strval($orderValue),
+					"currency" => "EUR"
+				],
+				"type" => "sale",
+				"status" => "success",
+				"happened_at" => $happened_at->format('c')
+			]
+        ];
+
+        //Log::notice($queryParams);
+        $response =  $this->makeRequest('POST', $url, [], $queryParams, [
+            'Content-Type' => 'application/json',
+             'Accept' => 'application/json',
+             'Origin' => 'https://lolja.pt',
+            ]
+        );
+        Log::notice($response);
+        Transaction::create([
+            'request_payload' => json_encode($queryParams),
+            'type' => 'success',
+            'payload' => json_encode($response),
+        ]);
+        return $response; // remove?
     }
 
     public function getOrder($orderId)

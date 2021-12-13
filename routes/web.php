@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
+use App\Services\NuvemService;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -27,12 +29,23 @@ Route::get('/rates', function () {
     return view('rates');
 });
 
-Route::get('/callback', function(Request $request) {
+Route::get('/callback.php', function(Request $request) {
 
     //chave cdb6929a9dfcbf0301256830fe06b55d
+    //https://payment.parceiroslolja.com/callback.php?key=[ANTI_PHISHING_KEY]&id=[ID]&amount=[AMOUNT]&payment_datetime=[PAYMENT_DATETIME]&payment_method=[PAYMENT_METHOD]
     
-
-    return json_encode([ "callback" => $request->all()]);
+    if(isset($request['key']) && $request['key'] == 'cdb6929a9dfcbf0301256830fe06b55d'){
+        $nuvemService = new NuvemService();
+        $request["redirect_url"] = "";
+        if(isset($request["id"]) && isset($request["amount"])){
+            $response_nuvem = $nuvemService->setOrderPaid($request["id"], $request["amount"], $request["redirect_url"]);
+            return json_encode([ "callback" => $response_nuvem]);
+        }else{
+            abort(400, 'Bad request');
+        }
+    }else{
+        abort(400, 'Bad request');
+    }
 
   })->name('callback');
 
